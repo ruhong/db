@@ -1,10 +1,13 @@
+---
+title: Recommands three kinds of inheritance way for js
+---
 
 
 ### 1. 原型继承
 
 > 原型继承是让父对象作为子对象的原型，从而达到继承的目的：
 
-
+```{.javascript}
 function object(o) {
     function F() {
 
@@ -52,11 +55,13 @@ Person.prototype.getName = function() {
 var kid = object(Person.prototype);
 console.log(typeof kid.getName); // "function",因为是在原型里定义的
 console.log(typeof kid.name); // "undefined", 因为只继承了原型
+```
 
 ### 2. 复制所有属性进行继承
 
 > 这种方式的继承就是将父对象里所有的属性都复制到子对象上，一般子对象可以使用父对象的数据。
 
+```{.javascript}
 //浅拷贝
 //代码的最后一行，你可以发现dad和kid的reads是一样的，也就是他们使用的是同一个引用，这也就是浅拷贝带来的问题。
 
@@ -118,12 +123,13 @@ console.log(kid.counts.toString()); //"1,2,3,4"
 console.log(dad.counts.toString()); //"1,2,3"
 
 console.log(dad.reads === kid.reads); //false
-
+```
 
 ### 3. 混合（mix-in）
 
 > 混入就是将一个对象的一个或多个（或全部）属性（或方法）复制到另外一个对象，我们举一个例子：
 
+```{.javascript}
 function mix() {
     var arg, 
         prop, 
@@ -140,3 +146,4 @@ function mix() {
     return child;
 
 }
+```
