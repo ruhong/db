@@ -1,5 +1,5 @@
 ---
-title: css-rules
+title: javascript-rules
 ---
 
 
@@ -26,7 +26,7 @@ title: css-rules
 > 对Array用for-in循环有时会出错。因为它并不是从0到length-1 进行遍历,
 > 而是所有出现在对象及其原型链的键值。下面就是一些失败的使用案例:
 
-```{.js}
+```{.javascript}
 function printArray(arr) {
     for (var key in arr) {
         print(arr[key]);
@@ -54,6 +54,7 @@ function printArray(arr) {
     }
 }
 ```
+
 ### 6. 命名规则
 
     1) 变量 variableNamesLikeThis
@@ -62,7 +63,6 @@ function printArray(arr) {
     4) 构造函数 ClassNamesLikeThis
     5) 方法名 methodNamesLikeThis
     6) 私有属性、变量和方法名应该以下划线"_"开头
-
     7) 可选参数以"opt_"开头
     8) getters和setters并不是必要的。但只要使用它们了,就请将getters命名成getFoo()形式,将setters命名成setFoo(value) 形式.
 
@@ -71,15 +71,13 @@ function printArray(arr) {
 
 > 在全局作用域上,使用一个唯一的,与工程/库相关的名字作为前缀标识。比如,你的工程是"Project  Sloth",那么命名空间前缀可取为sloth.*
 
-```{.js}
+```{.javascript}
 var sloth = {};
 sloth.sleep = function() {
 
 };
 ```
 > 不要对命名空间创建别名
-
-```
 
 ### 8. 文件名
 > 文件名应该使用小写字符,以避免在有些系统平台上不识别大小写的命名方式.文件名以.js结尾,不要包含除 - 和 _ 外的标点符号(使用 - 优于
@@ -90,7 +88,7 @@ _)。
 > 大括号
 > 分号会被隐式插入到代码中,  所以你务必在同一行上插入大括号
 
-```{.js}
+```{.javascript}
 if (something) {
     // ...
 } else {
@@ -102,13 +100,13 @@ if (something) {
 
 > 如果初始值不是很长,  就保持写在单行
 
-```{.js}
+```{.javascript}
 var arr = [1, 2, 3];   // No space after [ or before ].
 var obj = {a: 1, b: 2, c: 3};   // No space after { or before }.
 ```
 > 初始值占用多行时,  缩进4个空格
 
-```{.js}
+```{.javascript}
 // Object initializer.
 var inset = { 
     top: 10, 
@@ -137,7 +135,7 @@ goog.dom.createDom(goog.dom.TagName.DIV, {
 ```
 > 比较长的标识符或者数值,  不要为了让代码好看些而手工对齐。
 
-```{.js}
+```{.javascript}
 CORRECT_Object.prototype = {
     a: 0, 
     b: 1,
@@ -158,7 +156,7 @@ WRONG_Object.prototype = {
 > 尽量让函数参数在同一行上.  如果一行超过  80  字符,每个参数独占一行,  并以4个空格缩进,  或者与括号对齐,  以提高可读性.  尽可能不要让每行超过
 80个字符.  比如下面这样:
 
-```{.js}
+```{.javascript}
 // Four-space, wrap at 80.   Works with very long function names, survives
 // renaming without reindenting, low on space. goog.foo.bar.
 doThingThatIsVeryDifficultToExplain = function(
@@ -201,7 +199,7 @@ function bar(
 而不是从  function  这个关键字开始.  这让匿名函数更加易读  (不要增加很多没 
 必要的缩进让函数体显示在屏幕的右侧)
 
-```{.js}
+```{.javascript}
 //Not recommand
 var names = items.map(function(item) {
                         return item.name;
@@ -224,7 +222,7 @@ prefix.something.reallyLongFunctionName('whatever', function(a1, a2) {
 所有被拆开的多行文本与之前的表达式左对齐,以4个
 空格作为一缩进层次
 
-```{.js}
+```{.javascript}
 someWonderfulHtml = ' +
     getEvenMoreHtml(
         someReallyInterestingValues, 
@@ -260,7 +258,7 @@ if (searchableCollection(allYourStuff).contains(theStuffYouWant) &&
 
 > 使用空行来划分一组逻辑上相关联的代码片段
 
-```{.js}
+```{.javascript}
 doSomethingTo(x);
 doSomethingElseTo(x);
 andThen(x);
@@ -275,7 +273,7 @@ andNowWith(z);
 > 操作符始终跟随着前行,这样就不用顾虑分号的隐式插入问题。
 如果一行实在放不下,  还是按照上述的缩进风格来换行。
 
-```{.js}
+```{.javascript}
 var x = a ? b : c;   // All on one line if it will fit.
 
 // Indentation +4 is OK.
@@ -284,10 +282,10 @@ var y = a ?
 
 ```
 
-### 15. 字符串
+### 16. 字符串
 
 > 使用单引号 ' 优于双引号 "
 
-```{.js}
+```{.javascript}
 var msg = 'This is some HTML';
 ```
