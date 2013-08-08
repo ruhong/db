@@ -15,7 +15,7 @@ titleblock = ['title', 'author', 'date']
 args = [pandoc]
 
 # files to read
-files = []
+files =[]
 
 # single-letter arguments with follow-up
 followargs = ['f', 'r', 't', 'w', 'o', 'V', 'D', 'H', 'B', 'A', 'T', 'c']

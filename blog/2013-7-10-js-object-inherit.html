@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recommands three kinds of inheritance way for js</title>
+<link rel="stylesheet" href="../../assets/css/github.css">
+<link rel="stylesheet" href="../../assets/css/pygment.css">
+</head>
+<body>
+<div class="container">
+<h3 id="原型继承">1. 原型继承</h3>
+<blockquote>
+<p>原型继承是让父对象作为子对象的原型，从而达到继承的目的：</p>
+</blockquote>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">function</span> <span class="fu">object</span>(o) {
+    <span class="kw">function</span> <span class="fu">F</span>() {
+
+    }
+    <span class="ot">F</span>.<span class="fu">prototype</span> = o;
+    <span class="kw">return</span> <span class="kw">new</span> <span class="fu">F</span>();
+}
+
+<span class="co">//要继承的父对象</span>
+<span class="kw">var</span> Parent = {
+    <span class="dt">name</span>: <span class="st">&#39;Papa&#39;</span>
+}
+
+<span class="co">//子对象</span>
+<span class="kw">var</span> child = <span class="fu">object</span>(Parent)
+
+<span class="co">//test</span>
+<span class="ot">console</span>.<span class="fu">log</span>(<span class="ot">child</span>.<span class="fu">name</span>); <span class="co">//Papa</span>
+
+<span class="co">//父构造函数</span>
+<span class="kw">function</span> <span class="fu">Person</span>() {
+    <span class="kw">this</span>.<span class="fu">name</span> = <span class="st">&quot;Adam&quot;</span>;
+}
+
+<span class="ot">Person</span>.<span class="ot">prototype</span>.<span class="fu">getName</span> = <span class="kw">function</span>() {
+    <span class="kw">return</span> <span class="kw">this</span>.<span class="fu">name</span>;
+}
+
+<span class="kw">var</span> papa = <span class="kw">new</span> <span class="fu">Person</span>();
+<span class="kw">var</span> kid = <span class="fu">object</span>(papa);
+
+<span class="ot">console</span>.<span class="fu">log</span>(<span class="ot">kid</span>.<span class="fu">getName</span>()); <span class="co">//&quot;Adam&quot;</span>
+
+
+<span class="co">//父构造函数</span>
+<span class="kw">function</span> <span class="fu">Person</span>() {
+    <span class="kw">this</span>.<span class="fu">name</span> = <span class="st">&quot;Adam&quot;</span>;
+}
+
+<span class="ot">Person</span>.<span class="ot">prototype</span>.<span class="fu">getName</span> = <span class="kw">function</span>() {
+    <span class="kw">return</span> <span class="kw">this</span>.<span class="fu">name</span>;
+}
+
+<span class="co">//只继承到原型</span>
+<span class="kw">var</span> kid = <span class="fu">object</span>(<span class="ot">Person</span>.<span class="fu">prototype</span>);
+<span class="ot">console</span>.<span class="fu">log</span>(<span class="kw">typeof</span> <span class="ot">kid</span>.<span class="fu">getName</span>); <span class="co">// &quot;function&quot;,因为是在原型里定义的</span>
+<span class="ot">console</span>.<span class="fu">log</span>(<span class="kw">typeof</span> <span class="ot">kid</span>.<span class="fu">name</span>); <span class="co">// &quot;undefined&quot;, 因为只继承了原型</span></code></pre>
+<h3 id="复制所有属性进行继承">2. 复制所有属性进行继承</h3>
+<blockquote>
+<p>这种方式的继承就是将父对象里所有的属性都复制到子对象上，一般子对象可以使用父对象的数据。</p>
+</blockquote>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="co">//浅拷贝</span>
+<span class="co">//代码的最后一行，你可以发现dad和kid的reads是一样的，也就是他们使用的是同一个引用，这也就是浅拷贝带来的问题。</span>
+
+<span class="kw">function</span> <span class="fu">extend</span>(parent, child) {
+    <span class="kw">var</span> i;
+    child = child || {};
+    <span class="kw">for</span>(i <span class="kw">in</span> parent) {
+        <span class="kw">if</span>(<span class="ot">parent</span>.<span class="fu">hasOwnProperty</span>(i)) {
+            child[i] = <span class="fu">parent</span>(i);
+        }
+    }
+
+    <span class="kw">return</span> child;
+}
+
+<span class="kw">var</span> dad = {
+    <span class="dt">counts</span>: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>],
+    <span class="dt">reads</span>: {<span class="dt">paper</span>: <span class="kw">true</span>}
+};
+
+<span class="kw">var</span> kid = <span class="fu">extend</span>(dad);
+<span class="ot">kid</span>.<span class="ot">counts</span>.<span class="fu">push</span>(<span class="dv">4</span>);
+
+<span class="ot">console</span>.<span class="fu">log</span>(<span class="ot">dad</span>.<span class="ot">counts</span>.<span class="fu">toString</span>()); <span class="co">//&quot;1,2,3,4&quot;</span>
+<span class="ot">console</span>.<span class="fu">log</span>(<span class="ot">dad</span>.<span class="fu">reads</span> === <span class="ot">kid</span>.<span class="fu">reads</span>); <span class="co">//true</span>
+
+<span class="co">//深拷贝</span>
+
+<span class="kw">function</span> <span class="fu">extendDeep</span>(parent, child) {
+    <span class="kw">var</span> i,
+        toStr = <span class="ot">Object</span>.<span class="ot">prototype</span>.<span class="fu">toString</span>,
+        astr = <span class="st">&quot;[object Array]&quot;</span>;
+
+    child = child || {};
+
+    <span class="kw">for</span>(i <span class="kw">in</span> parent) {
+        <span class="kw">if</span>(<span class="ot">parent</span>.<span class="fu">hasOwnProperty</span>(i)) {
+            <span class="kw">if</span>(<span class="kw">typeof</span> parent[i] === <span class="st">&#39;object&#39;</span>) {
+                child[i] = (<span class="ot">toStr</span>.<span class="fu">call</span>(parent[i])===astr) ? [] : {}; 
+                <span class="fu">extendDeep</span>(parent[i], child[i]);
+            }<span class="kw">else</span>{
+                child[i] = parent[i];
+            }
+        }
+    }
+
+    <span class="kw">return</span> child;
+}
+
+<span class="kw">var</span> dad = {
+    <span class="dt">counts</span>: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>],
+    <span class="dt">reads</span>: {<span class="dt">paper</span>: <span class="kw">true</span>}
+}
+
+<span class="kw">var</span> kid = <span class="fu">extendDeep</span>(dad);
+<span class="ot">kid</span>.<span class="ot">counts</span>.<span class="fu">push</span>(<span class="dv">4</span>);
+
+<span class="ot">console</span>.<span class="fu">log</span>(<span class="ot">kid</span>.<span class="ot">counts</span>.<span class="fu">toString</span>()); <span class="co">//&quot;1,2,3,4&quot;</span>
+<span class="ot">console</span>.<span class="fu">log</span>(<span class="ot">dad</span>.<span class="ot">counts</span>.<span class="fu">toString</span>()); <span class="co">//&quot;1,2,3&quot;</span>
+
+<span class="ot">console</span>.<span class="fu">log</span>(<span class="ot">dad</span>.<span class="fu">reads</span> === <span class="ot">kid</span>.<span class="fu">reads</span>); <span class="co">//false</span></code></pre>
+<h3 id="混合mix-in">3. 混合（mix-in）</h3>
+<blockquote>
+<p>混入就是将一个对象的一个或多个（或全部）属性（或方法）复制到另外一个对象，我们举一个例子：</p>
+</blockquote>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">function</span> <span class="fu">mix</span>() {
+    <span class="kw">var</span> arg, 
+        prop, 
+        child = {};
+
+    <span class="kw">for</span>(arg = <span class="dv">0</span>, arg&lt;<span class="ot">arguments</span>.<span class="fu">length</span>; arg +=<span class="dv">1</span>) {
+        <span class="kw">for</span>(prop <span class="kw">in</span> arguments[arg]) {
+            <span class="kw">if</span>(arguments[arg].<span class="fu">hasOwnProperty</span>(prop)) {
+                child[prop] = arguments[arg][prop];
+            }
+        }
+    }
+
+    <span class="kw">return</span> child;
+
+}</code></pre>
+</div>
+</body>
+</html>

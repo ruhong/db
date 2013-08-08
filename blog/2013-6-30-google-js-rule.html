@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>javascript-rules</title>
+<link rel="stylesheet" href="../../assets/css/github.css">
+<link rel="stylesheet" href="../../assets/css/pygment.css">
+</head>
+<body>
+<div class="container">
+<h3 id="变量">1. 变量</h3>
+<blockquote>
+<p>声明变量必须加上var</p>
+</blockquote>
+<h3 id="常量">2. 常量</h3>
+<blockquote>
+<p>使用大写字符,并用下划线分隔：NAMES_LIKE_THIS</p>
+</blockquote>
+<h3 id="分号">3. 分号</h3>
+<blockquote>
+<p>总是使用分号</p>
+</blockquote>
+<h3 id="this">4. this</h3>
+<blockquote>
+<p>仅在对象构造器, 方法, 闭包中使用。</p>
+</blockquote>
+<h3 id="for-in循环">5. for in循环</h3>
+<blockquote>
+<p>只用于object/map/hash 的遍历</p>
+</blockquote>
+<blockquote>
+<p>对Array用for-in循环有时会出错。因为它并不是从0到length-1 进行遍历, 而是所有出现在对象及其原型链的键值。下面就是一些失败的使用案例:</p>
+</blockquote>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">function</span> <span class="fu">printArray</span>(arr) {
+    <span class="kw">for</span> (<span class="kw">var</span> key <span class="kw">in</span> arr) {
+        <span class="fu">print</span>(arr[key]);
+    }
+}
+<span class="fu">printArray</span>([<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>]);   <span class="co">// This works. var a = new Array(10);</span>
+<span class="fu">printArray</span>(a);   <span class="co">// This is wrong.</span>
+
+a = <span class="ot">document</span>.<span class="fu">getElementsByTagName</span>(<span class="st">&#39;*&#39;</span>);
+<span class="fu">printArray</span>(a);   <span class="co">// This is wrong.</span>
+
+a = [<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>];
+<span class="ot">a</span>.<span class="fu">buhu</span> = <span class="st">&#39;wine&#39;</span>;
+<span class="fu">printArray</span>(a);   <span class="co">// This is wrong again.</span>
+
+a = <span class="kw">new</span> Array;
+a[<span class="dv">3</span>] = <span class="dv">3</span>;
+<span class="fu">printArray</span>(a);   <span class="co">// This is wrong again.</span>
+
+<span class="co">//而遍历数组通常用最普通的  for  循环.</span>
+
+<span class="kw">function</span> <span class="fu">printArray</span>(arr) {
+    <span class="kw">for</span> (<span class="kw">var</span> i = <span class="dv">0</span>, len=<span class="ot">arr</span>.<span class="fu">length</span>; i &lt; len; i++) {
+        <span class="fu">print</span>(arr[i]);
+    }
+}</code></pre>
+<h3 id="命名规则">6. 命名规则</h3>
+<pre><code>1) 变量 variableNamesLikeThis
+2) 常量 SYMBOLIC_CONSTANTS_LIKE_THIS
+3) 函数 functionNamesLikeThis
+4) 构造函数 ClassNamesLikeThis
+5) 方法名 methodNamesLikeThis
+6) 私有属性、变量和方法名应该以下划线&quot;_&quot;开头
+7) 可选参数以&quot;opt_&quot;开头
+8) getters和setters并不是必要的。但只要使用它们了,就请将getters命名成getFoo()形式,将setters命名成setFoo(value) 形式.</code></pre>
+<h3 id="命名空间">7. 命名空间</h3>
+<blockquote>
+<p>在全局作用域上,使用一个唯一的,与工程/库相关的名字作为前缀标识。比如,你的工程是&quot;Project Sloth&quot;,那么命名空间前缀可取为sloth.*</p>
+</blockquote>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> sloth = {};
+<span class="ot">sloth</span>.<span class="fu">sleep</span> = <span class="kw">function</span>() {
+
+};</code></pre>
+<blockquote>
+<p>不要对命名空间创建别名</p>
+</blockquote>
+<h3 id="文件名">8. 文件名</h3>
+<blockquote>
+<p>文件名应该使用小写字符,以避免在有些系统平台上不识别大小写的命名方式.文件名以.js结尾,不要包含除 - 和 _ 外的标点符号(使用 - 优于 _)。</p>
+</blockquote>
+<h3 id="代码格式">9. 代码格式</h3>
+<blockquote>
+<p>大括号 分号会被隐式插入到代码中, 所以你务必在同一行上插入大括号</p>
+</blockquote>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">if</span> (something) {
+    <span class="co">// ...</span>
+} <span class="kw">else</span> {
+    <span class="ot">/</span>
+}</code></pre>
+<h3 id="数组和对象的初始化">10. 数组和对象的初始化</h3>
+<blockquote>
+<p>如果初始值不是很长, 就保持写在单行</p>
+</blockquote>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> arr = [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>];   <span class="co">// No space after [ or before ].</span>
+<span class="kw">var</span> obj = {<span class="dt">a</span>: <span class="dv">1</span>, <span class="dt">b</span>: <span class="dv">2</span>, <span class="dt">c</span>: <span class="dv">3</span>};   <span class="co">// No space after { or before }.</span></code></pre>
+<blockquote>
+<p>初始值占用多行时, 缩进4个空格</p>
+</blockquote>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="co">// Object initializer.</span>
+<span class="kw">var</span> inset = { 
+    <span class="dt">top</span>: <span class="dv">10</span>, 
+    <span class="dt">right</span>: <span class="dv">20</span>, 
+    <span class="dt">bottom</span>: <span class="dv">15</span>, 
+    <span class="dt">left</span>: <span class="dv">12</span>
+};
+
+<span class="co">// Array initializer.</span>
+<span class="kw">this</span>.<span class="fu">rows_</span> = [
+    <span class="st">&#39;&quot;Slartibartfast&quot; &lt;fjordmaster@magrathea.com&gt;&#39;</span>,
+    <span class="st">&#39;&quot;Zaphod Beeblebrox&quot; &lt;theprez@universe.gov&gt;&#39;</span>,
+    <span class="st">&#39;&quot;Ford Prefect&quot; &lt;ford@theguide.com&gt;&#39;</span>,
+    <span class="st">&#39;&quot;Arthur Dent&quot; &lt;has.no.tea@gmail.com&gt;&#39;</span>,
+    <span class="st">&#39;&quot;Marvin the Paranoid Android&quot; &lt;marv@googlemail.com&gt;&#39;</span>,
+    <span class="st">&#39;the.mice@magrathea.com&#39;</span>
+];
+
+<span class="co">// Used in a method call.</span>
+<span class="ot">goog</span>.<span class="ot">dom</span>.<span class="fu">createDom</span>(<span class="ot">goog</span>.<span class="ot">dom</span>.<span class="ot">TagName</span>.<span class="fu">DIV</span>, {
+    <span class="dt">id</span>: <span class="st">&#39;foo&#39;</span>,
+    <span class="dt">className</span>: <span class="st">&#39;some-css-class&#39;</span>, 
+    <span class="dt">style</span>: <span class="st">&#39;display:none&#39;</span>
+}, <span class="st">&#39;Hello, world!&#39;</span>);</code></pre>
+<blockquote>
+<p>比较长的标识符或者数值, 不要为了让代码好看些而手工对齐。</p>
+</blockquote>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="ot">CORRECT_Object</span>.<span class="fu">prototype</span> = {
+    <span class="dt">a</span>: <span class="dv">0</span>, 
+    <span class="dt">b</span>: <span class="dv">1</span>,
+    <span class="dt">lengthyName</span>: <span class="dv">2</span>
+};
+
+<span class="co">//不要这样做:</span>
+<span class="ot">WRONG_Object</span>.<span class="fu">prototype</span> = {
+    <span class="dt">a          </span>: <span class="dv">0</span>, 
+    <span class="dt">b          </span>: <span class="dv">1</span>, 
+    <span class="dt">lengthyName</span>: <span class="dv">2</span>
+};</code></pre>
+<h3 id="函数参数">11. 函数参数</h3>
+<blockquote>
+<p>尽量让函数参数在同一行上. 如果一行超过 80 字符,每个参数独占一行, 并以4个空格缩进, 或者与括号对齐, 以提高可读性. 尽可能不要让每行超过 80个字符. 比如下面这样:</p>
+</blockquote>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="co">// Four-space, wrap at 80.   Works with very long function names, survives</span>
+<span class="co">// renaming without reindenting, low on space. goog.foo.bar.</span>
+doThingThatIsVeryDifficultToExplain = <span class="kw">function</span>(
+    veryDescriptiveArgumentNumberOne, veryDescriptiveArgumentTwo, 
+    tableModelEventHandlerProxy, artichokeDescriptorAdapterIterator) {
+    <span class="co">// ...</span>
+};
+
+<span class="co">// Four-space, one argument per line.   Works with long function names,</span>
+<span class="co">// survives renaming, and emphasizes each argument. goog.foo.bar.</span>
+doThingThatIsVeryDifficultToExplain = <span class="kw">function</span>(
+    veryDescriptiveArgumentNumberOne, 
+    veryDescriptiveArgumentTwo, 
+    tableModelEventHandlerProxy, 
+    artichokeDescriptorAdapterIterator) {
+    <span class="co">// ...</span>
+};
+
+<span class="co">// Parenthesis-aligned indentation, wrap at 80.   Visually groups arguments,</span>
+<span class="co">// low on space.</span>
+<span class="kw">function</span> <span class="fu">foo</span>(veryDescriptiveArgumentNumberOne, veryDescriptiveArgumentTwo, 
+tableModelEventHandlerProxy, artichokeDescriptorAdapterIterator) {
+    <span class="co">// ...</span>
+};
+
+<span class="co">// Parenthesis-aligned, one argument per line.   Visually groups and</span>
+<span class="co">// emphasizes each individual argument. </span>
+<span class="kw">function</span> <span class="fu">bar</span>(
+    veryDescriptiveArgumentNumberOne,
+    veryDescriptiveArgumentTwo, 
+    tableModelEventHandlerProxy, 
+    artichokeDescriptorAdapterIterator) {
+    <span class="co">//...</span>
+}</code></pre>
+<h3 id="传递匿名函数">12. 传递匿名函数</h3>
+<blockquote>
+<p>如果参数中有匿名函数, 函数体从调用该函数的左边开始缩进4个空格,<br />而不是从 function 这个关键字开始. 这让匿名函数更加易读 (不要增加很多没 必要的缩进让函数体显示在屏幕的右侧)</p>
+</blockquote>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="co">//Not recommand</span>
+<span class="kw">var</span> names = <span class="ot">items</span>.<span class="fu">map</span>(<span class="kw">function</span>(item) {
+                        <span class="kw">return</span> <span class="ot">item</span>.<span class="fu">name</span>;
+                    });
+
+<span class="co">//Recommand</span>
+<span class="ot">prefix</span>.<span class="ot">something</span>.<span class="fu">reallyLongFunctionName</span>(<span class="st">&#39;whatever&#39;</span>, <span class="kw">function</span>(a1, a2) {
+    <span class="kw">if</span> (<span class="ot">a1</span>.<span class="fu">equals</span>(a2)) {
+        <span class="fu">someOtherLongFunctionName</span>(a1);
+    } <span class="kw">else</span> {
+        <span class="fu">andNowForSomethingCompletelyDifferent</span>(<span class="ot">a2</span>.<span class="fu">parrot</span>);
+    }
+});</code></pre>
+<h3 id="更多的缩进">13. 更多的缩进</h3>
+<blockquote>
+<p>事实上,除了初始化数组和对象 ,和传递匿名函数外, 所有被拆开的多行文本与之前的表达式左对齐,以4个 空格作为一缩进层次</p>
+</blockquote>
+<pre class="sourceCode javascript"><code class="sourceCode javascript">someWonderfulHtml = <span class="st">&#39; +</span>
+    <span class="fu">getEvenMoreHtml</span>(
+        someReallyInterestingValues, 
+        moreValues, 
+        evenMoreParams, 
+        <span class="st">&#39;a duck&#39;</span>, 
+        <span class="kw">true</span>, 
+        <span class="dv">72</span>, 
+        <span class="fu">slightlyMoreMonkeys</span>(<span class="bn">0xfff</span>)) +
+    <span class="st">&#39;;</span>
+
+thisIsAVeryLongVariableName =
+    <span class="fu">hereIsAnEvenLongerOtherFunctionNameThatWillNotFitOnPrevLine</span>();
+
+thisIsAVeryLongVariableName = <span class="st">&#39;expressionPartOne&#39;</span> + <span class="fu">someMethodThatIsLong</span>() +
+    <span class="fu">thisIsAnEvenLongerOtherFunctionNameThatCannotBeIndentedMore</span>();
+
+someValue = <span class="kw">this</span>.<span class="fu">foo</span>(
+    shortArg,
+    <span class="st">&#39;Some really long string arg - this is a pretty common case, actually.&#39;</span>,
+    shorty2,
+    <span class="kw">this</span>.<span class="fu">bar</span>());
+
+<span class="kw">if</span> (<span class="fu">searchableCollection</span>(allYourStuff).<span class="fu">contains</span>(theStuffYouWant) &amp;&amp;
+    !<span class="ot">ambientNotification</span>.<span class="fu">isActive</span>() &amp;&amp; 
+    (<span class="ot">client</span>.<span class="fu">isAmbientSupported</span>() || <span class="ot">client</span>.<span class="fu">alwaysTryAmbientAnyways</span>()) {
+    <span class="ot">ambientNotification</span>.<span class="fu">activate</span>();
+}</code></pre>
+<h3 id="空行">14. 空行</h3>
+<blockquote>
+<p>使用空行来划分一组逻辑上相关联的代码片段</p>
+</blockquote>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="fu">doSomethingTo</span>(x);
+<span class="fu">doSomethingElseTo</span>(x);
+<span class="fu">andThen</span>(x);
+
+<span class="fu">nowDoSomethingWith</span>(y);
+
+<span class="fu">andNowWith</span>(z);</code></pre>
+<h3 id="二元和三元操作符">15. 二元和三元操作符</h3>
+<blockquote>
+<p>操作符始终跟随着前行,这样就不用顾虑分号的隐式插入问题。 如果一行实在放不下, 还是按照上述的缩进风格来换行。</p>
+</blockquote>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> x = a ? b : c;   <span class="co">// All on one line if it will fit.</span>
+
+<span class="co">// Indentation +4 is OK.</span>
+<span class="kw">var</span> y = a ?
+    longButSimpleOperandB : longButSimpleOperandC;</code></pre>
+<h3 id="字符串">16. 字符串</h3>
+<blockquote>
+<p>使用单引号 ' 优于双引号 &quot;</p>
+</blockquote>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> msg = <span class="st">&#39;This is some HTML&#39;</span>;</code></pre>
+</div>
+</body>
+</html>
